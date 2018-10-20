@@ -19,7 +19,6 @@ temp = internetResult['main']['temp']
 city = internetResult['name']
 country = internetResult['sys']['country']
 weather = internetResult['weather'][0]['main']
-quotes = []
 nice_or_not = False
 
 led = aiy.voicehat.get_led()
@@ -35,11 +34,19 @@ recognizer = aiy.cloudspeech.get_recognizer()
 aiy.audio.say("I can hear every word you say.")
 aiy.audio.get_recorder().start()
 
+QUOTES = wikiquotes.get_quotes('kindness', 'english')
+
 while True:
     text = recognizer.recognize()
     print(text)
+    if text is None:
+        #aiy.audio.say("Sorry I didn't hear anything.")
+        continue
     if 'lesson' in text:
-        aiy.audio.say("You can't teach me anything")
+        if nice_or_not == False:
+            aiy.audio.say("You can't teach me anything")
+        else:
+            aiy.audio.say("Maybe another time")
     elif 'kindness' in text:
         aiy.audio.say("Error Error,nice Brian online!")
         nice_or_not = True
@@ -117,11 +124,16 @@ while True:
         else:
             aiy.audio.say ("you are the best you can possible be")
     elif 'quote' in text:
-        aiy.audio.say(wikiquotes.get_quotes("kind", "english")[0])
+        #aiy.audio.say(wikiquotes.get_quotes("kind", "english")[0])
+        aiy.audio.say(random.choice(QUOTES))
     elif 'unkind' in text:
         if nice_or_not == False:
             aiy.audio.say("I am a bully")
         else:
            aiy.audio.say("bullying is never right and is never yor fault. If you are being bullied you should tell a trustworthy adult or a friend. Never suffer in silence. Remember Bullies are humans too.")
-    
+    elif 'dance' in text:
+        if nice_or_not:
+            aiy.audio.say("Okay! Try doing these dance moves: floss, dab, wiggle, fresh and groove jam!")
+        else:
+            aiy.audio.say("Nope!")
         
