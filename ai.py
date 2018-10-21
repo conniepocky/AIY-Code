@@ -1,4 +1,3 @@
-from gtts import gTTS
 import aiy.audio
 import aiy.cloudspeech
 import aiy.voicehat
@@ -24,10 +23,6 @@ nice_or_not = False
 led = aiy.voicehat.get_led()
 led.set_state(aiy.voicehat.LED.ON)
 
-def sayBetter(text):
-    tts = gTTS(text=text, lang='en')
-    tts.save('say.mp3')
-    os.system('mpg123 say.mp3')
 
 recognizer = aiy.cloudspeech.get_recognizer()
 
@@ -54,7 +49,10 @@ while True:
         webbrowser.open("https://www.youtube.com/watch?v=2SmUkXtQIPc")
                               
     elif 'hello' in text:
-        aiy.audio.say("Hello puny earthlings I am savage Brian superior to you all!")
+        if nice_or_not == False:
+            aiy.audio.say("Hello puny earthlings I am savage Brian superior to you all!")
+        else:
+            aiy.audio.say("Hi!")
     elif 'time' in text:
         if nice_or_not == False:
             aiy.audio.say("Its muffin time you noobs")
@@ -71,6 +69,7 @@ while True:
                 aiy.audio.say('woohoo!')
             else:
                 aiy.audio.say("dont talk to me I am sad")
+                break
     elif 'baby' in text:
         aiy.audio.say(""" Baby shark, doo doo doo doo doo doo
     Baby shark, doo doo doo doo doo doo
@@ -113,12 +112,12 @@ while True:
         nice_or_not = False
     elif 'weather' in text:
         if nice_or_not == False:
-            aiy.audio.say('The weather in {0} is {1}. What a horrible day it is. Just like your face.'.format(city, weather))
+            aiy.audio.say('The weather in {0} is {1}. What a horrible day it is.'.format(city, weather))
             aiy.audio.say('The temperature is currently {0} degrees'.format(temp))
         else:
-            aiy.audio.say('The weather in {0} is {1}. What a lovely day it is.', format(city, weather))
+            aiy.audio.say('The weather in {0} is {1}. What a lovely day it is.'. format(city, weather))
             aiy.audio.say('The temperature is currently {0} degrees'.format(temp))
-    elif 'sad' in text:
+    elif 'sad' in text: 
         if nice_or_not == False:
             aiy.audio.say("I am fine")
         else:
@@ -131,9 +130,25 @@ while True:
             aiy.audio.say("I am a bully")
         else:
            aiy.audio.say("bullying is never right and is never yor fault. If you are being bullied you should tell a trustworthy adult or a friend. Never suffer in silence. Remember Bullies are humans too.")
-    elif 'dance' in text:
-        if nice_or_not:
-            aiy.audio.say("Okay! Try doing these dance moves: floss, dab, wiggle, fresh and groove jam!")
-        else:
-            aiy.audio.say("Nope!")
+    elif 'dance' in text or 'dancing' in text or 'Dance' in text:
+        webbrowser.open("https://www.youtube.com/watch?v=s8MDNFaGfT4")
+    elif 'math' in text:
+            x = random.randint(1,10)
+            y = random.randint(1,10)
+            aiy.audio.say('{0} multiply by {1} equals'.format(x, y))
+            print('{0} multiply by {1} equals'.format(x, y))
+            result = recognizer.recognize()
+            print(result)
+            
+            if str(x*y) in result:  
+                    aiy.audio.say('You are right. But you are still really dumb unlike me.')
+            else:
+                    aiy.audio.say(result+ ' is not the correct answer bruh.')
+                    aiy.audio.say('Try again.You are so stupid that was easy i am sooooo smart.')
+    elif 'goodbye' in text:
+              aiy.audio.say('Thank you for teaching me about kindness I will share this with everyone Goodbye.')
+              break
+    elif 'help' in text:
+        webbrowser.open('https://www.childline.org.uk/?utm_source=google&utm_medium=cpc&utm_campaign=UK_GO_S_E_BND_Grant_Childline_Pure_Brand&utm_term=childline&gclid=EAIaIQobChMIq8aY76yX3gIVQbTtCh2iXQCkEAAYASAAEgIS6_D_BwE&gclsrc=aw.ds')
+                              
         

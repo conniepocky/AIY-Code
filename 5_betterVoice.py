@@ -4,7 +4,7 @@ import os
 import aiy.audio
 
 def sayBetter(text):
-    tts = gTTS(text=text, lang='am')
+    tts = gTTS(text=text, lang='it')
     tts.save('say.mp3')
     os.system('mpg123 say.mp3')
 
